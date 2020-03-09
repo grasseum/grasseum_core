@@ -28,7 +28,7 @@ exports.streamWrite=function(file_dest,file_src){
 
 
 
-exports.fsBeginWriteAction=function(file_dest,file_src,stream_pipe,require_pipe){
+exports.fsBeginWriteAction=function(file_dest,file_src,stream_pipe,require_pipe,after_load_queue){
   
 
    
@@ -47,7 +47,7 @@ exports.fsBeginWriteAction=function(file_dest,file_src,stream_pipe,require_pipe)
                     var local_valid_write_file_format = utilities_directory.valid_write_file_format(req_grss_minify_write_returndata);
               // console.log(req_grss_minify_write_returndata,"req_grss_minify_write_returndata",local_valid_write_file_format);
                 if(local_valid_write_file_format['is_valid']){
-                    file_system_event_trigger.begin_event_dest_write( req_grss_minify_write_returndata );
+                    file_system_event_trigger.begin_event_dest_write( req_grss_minify_write_returndata,after_load_queue );
                 }
                 
                  else{

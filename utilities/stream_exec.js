@@ -48,7 +48,7 @@ stream_exec.prototype.render_steam = function(after_load_queue){
 
 }
 
-stream_exec.prototype.fs_trigger_write_action = function(){
+stream_exec.prototype.fs_trigger_write_action = function(after_load_queue){
     var main = this;
     for(var i in main.list_dir_config){
         var local_dir_config = main.list_dir_config[i];
@@ -61,7 +61,7 @@ stream_exec.prototype.fs_trigger_write_action = function(){
                 local_stream_pipe = main.cls_value_pipe["__any__"];
               }
           }
-        main.cls_initialize.fsBeginWriteAction(local_dir_config['file_dest'],local_dir_config['file_src'],local_stream_pipe,main.cls_require_pipe)
+        main.cls_initialize.fsBeginWriteAction(local_dir_config['file_dest'],local_dir_config['file_src'],local_stream_pipe,main.cls_require_pipe,after_load_queue)
 
     }
 }
@@ -78,7 +78,7 @@ stream_exec.prototype.timer_trigger_acton = function(after_load_queue){
         if(main.list_dir_config.length == main.count_list_dir){
             
             clearInterval(action_interval);
-            main.fs_trigger_write_action();
+            main.fs_trigger_write_action(after_load_queue);
            
   
             main.render_steam( after_load_queue );
