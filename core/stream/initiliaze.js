@@ -43,9 +43,7 @@ exports.fsBeginWriteAction=function(file_dest,file_src,stream_pipe,require_pipe,
                  var req_grss_minify_write = main_require.grass_stream_write;
                  
                  var req_grss_minify_write_returndata = req_grss_minify_write.apply(req_grss_minify_write,stream_pipe[i]['arguments'])
-               //  console.log(init_stream_write());
                     var local_valid_write_file_format = utilities_directory.valid_write_file_format(req_grss_minify_write_returndata);
-              // console.log(req_grss_minify_write_returndata,"req_grss_minify_write_returndata",local_valid_write_file_format);
                 if(local_valid_write_file_format['is_valid']){
                     file_system_event_trigger.begin_event_dest_write( req_grss_minify_write_returndata,after_load_queue );
                 }

@@ -74,11 +74,11 @@ stream_exec.prototype.timer_trigger_acton = function(after_load_queue){
     var main = this;
   
     action_interval = setInterval(function(){
-        
+        main.fs_trigger_write_action(after_load_queue);
         if(main.list_dir_config.length == main.count_list_dir){
             
             clearInterval(action_interval);
-            main.fs_trigger_write_action(after_load_queue);
+            
            
   
             main.render_steam( after_load_queue );
