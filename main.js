@@ -1,5 +1,5 @@
 
-var pasteur = require("pasteur");
+var compt = require("compt");
 var extend_command = require("./extend/command");
 var extend_execute = require("./extend/execute");
 var extend_watch = require("./extend/watch");

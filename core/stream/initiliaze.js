@@ -1,4 +1,4 @@
-var pastuer  = require("pasteur")._
+var compt  = require("compt")._
 
 var stream_init = require("./support/stream_init")
 var stream_transform = require("./support/stream_transform")
@@ -12,7 +12,7 @@ var pre_bootloader_module = require("./../../utilities/pre_bootloader_module");
 
 exports.streamReader=function(file_src){
  //   console.log(stream_read())
-    if(pastuer.has(stream_read(file_src),file_src['type'])){
+    if(compt.has(stream_read(file_src),file_src['type'])){
         
         return stream_read(file_src)[ file_src['type'] ];
     }
@@ -20,7 +20,7 @@ exports.streamReader=function(file_src){
 }
 
 exports.streamWrite=function(file_dest,file_src){
-    if(pastuer.has(init_stream_write( file_dest,file_src ),file_src['type'])){
+    if(compt.has(init_stream_write( file_dest,file_src ),file_src['type'])){
         return init_stream_write(file_dest,file_src)[file_dest['type']];
     }
     
@@ -36,10 +36,10 @@ exports.fsBeginWriteAction=function(file_dest,file_src,stream_pipe,require_pipe)
   
    for(var i in stream_pipe){  
        try{
-        if(pastuer.has(require_pipe,stream_pipe[i]['name']) == false){
+        if(compt.has(require_pipe,stream_pipe[i]['name']) == false){
             var main_require = require(stream_pipe[i]['name']);
                
-             if(pastuer.has(main_require,"grass_stream_write") ){
+             if(compt.has(main_require,"grass_stream_write") ){
                  var req_grss_minify_write = main_require.grass_stream_write;
                  
                  var req_grss_minify_write_returndata = req_grss_minify_write.apply(req_grss_minify_write,stream_pipe[i]['arguments'])
@@ -91,10 +91,10 @@ exports.streamTransfom=function(stream_read,stream_write,stream_pipe,require_pip
  
    for(var i in stream_pipe){
        try{
-        if(pastuer.has(require_pipe,stream_pipe[i]['name']) == false){
+        if(compt.has(require_pipe,stream_pipe[i]['name']) == false){
             var main_require = require(stream_pipe[i]['name']);
             
-             if(pastuer.has(main_require,"grass_stream_write") ){
+             if(compt.has(main_require,"grass_stream_write") ){
                  var req_grss_minify_write = main_require.grass_stream_write;
                  
                  var req_grss_minify_write_returndata = req_grss_minify_write.apply(req_grss_minify_write,stream_pipe[i]['arguments'])
@@ -108,7 +108,7 @@ exports.streamTransfom=function(stream_read,stream_write,stream_pipe,require_pip
                      console.log( local_valid_write_file_format['error_output'].join("; \n") );
                  }
              }
-             if(pastuer.has(main_require,"grass_stream_transform") ){
+             if(compt.has(main_require,"grass_stream_transform") ){
                   var req_grss_minify = main_require.grass_stream_transform;
                   jsn_pipe_stream[ stream_pipe[i]['name'] ] = {
                       "arguments":stream_pipe[i]['arguments'],
@@ -192,7 +192,7 @@ exports.streamTransformPipeInit=function(config,value_pipe){
     for(var i in config['require']['pipe']){
         var set_config = config['require']['pipe'][i];
         
-        if (pastuer.has(set_config['require'],"grass_stream_config")) {
+        if (compt.has(set_config['require'],"grass_stream_config")) {
             
             try{
                 var transform_local = stream_init()
@@ -200,7 +200,7 @@ exports.streamTransformPipeInit=function(config,value_pipe){
                  var arry_value_pipe_arguments = {};
                  for(var i in transform_local.getExecutedVal()['ext']){
                  //   if( transform_local.getExecutedVal()['ext'][i] !="__any__" ){
-                        if(pastuer.has(value_pipe,transform_local.getExecutedVal()['ext'][i]) ==false ){
+                        if(compt.has(value_pipe,transform_local.getExecutedVal()['ext'][i]) ==false ){
                             
                             value_pipe[transform_local.getExecutedVal()['ext'][i]] = []
                             
@@ -209,7 +209,7 @@ exports.streamTransformPipeInit=function(config,value_pipe){
                         value_pipe[transform_local.getExecutedVal()['ext'][i]].push({"name":set_config['name'],"arguments":set_config['arguments']})
                 //    }
 
-                     if(pastuer.has(arry_value_pipe_arguments,transform_local.getExecutedVal()['ext'][i]) == false){
+                     if(compt.has(arry_value_pipe_arguments,transform_local.getExecutedVal()['ext'][i]) == false){
                         arry_value_pipe_arguments[transform_local.getExecutedVal()['ext'][i]]={}
                      }
                     arry_value_pipe_arguments[transform_local.getExecutedVal()['ext'][i]][set_config['name']] = set_config['arguments'];
@@ -217,21 +217,21 @@ exports.streamTransformPipeInit=function(config,value_pipe){
                   
                     
                  }
-                 if(pastuer.has(arry_value_pipe_arguments,"__any__")){
+                 if(compt.has(arry_value_pipe_arguments,"__any__")){
                      
-                        var value_pipe_key = pastuer.to_array(pastuer.getKey(value_pipe));
+                        var value_pipe_key = compt.to_array(compt.getKey(value_pipe));
                         
                         for(var val in value_pipe_key){
                             for(var sub_val in arry_value_pipe_arguments['__any__']){
                                 
                                 var method_attr = arry_value_pipe_arguments['__any__'][sub_val];
-                                if(pastuer.has(arry_value_pipe_arguments,value_pipe_key[val]) ){
-                                    if(pastuer.has(arry_value_pipe_arguments[ value_pipe_key[val] ] , sub_val ) ==false){
+                                if(compt.has(arry_value_pipe_arguments,value_pipe_key[val]) ){
+                                    if(compt.has(arry_value_pipe_arguments[ value_pipe_key[val] ] , sub_val ) ==false){
                                         value_pipe[ value_pipe_key[val] ].push({"name":sub_val,"arguments":method_attr })
                                    }
 
                                 }else{
-                                    if(pastuer.has(value_pipe,value_pipe_key[val]) ==false ){
+                                    if(compt.has(value_pipe,value_pipe_key[val]) ==false ){
                                         value_pipe[ value_pipe_key[val] ] = []
                                         
                                     }

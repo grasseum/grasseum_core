@@ -1,4 +1,4 @@
-var pasteur = require("pasteur");
+var compt = require("compt");
 exports.prep_before_load = function(is_initiate){
     
     var cls_before_load = new loader_before_load(is_initiate);
@@ -24,7 +24,7 @@ function loader_before_load(is_initiate){
 }
 exports.set_require_action_stream = function(name,data){
 
-    if(pasteur._.has(data,name) == false){
+    if(compt._.has(data,name) == false){
         
         var pre_main_class = exports.prep_before_load(true);
         data[name]={

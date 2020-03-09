@@ -1,9 +1,9 @@
-var _ps  = require("pasteur")._
+var compt  = require("compt")._
 
 function StreamWrite(){
   
 }
-//_ps.getTypeof
+
 
 module.exports = function(){
     return new StreamWrite()

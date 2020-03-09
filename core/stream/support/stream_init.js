@@ -1,4 +1,4 @@
-var _ps  = require("pasteur")._
+var compt  = require("compt")._
 
 function StreamInit(){
     this.local_extension = ["module"]
@@ -8,9 +8,9 @@ function StreamInit(){
 
 StreamInit.prototype.setDefaultExtension=function(val){
 
-    if(_ps.getTypeof(val) =="array"){
+    if(compt.getTypeof(val) =="array"){
        
-        this.local_extension=_ps.append_isArrayExist(this.local_extension,val)
+        this.local_extension=compt.append_isArrayExist(this.local_extension,val)
     }else{
          this.local_extension=[val]
     }
@@ -18,7 +18,7 @@ StreamInit.prototype.setDefaultExtension=function(val){
 
 StreamInit.prototype.setUniqueExecution=function(val){
 
-    if(_ps.getTypeof(val) =="boolean"){
+    if(compt.getTypeof(val) =="boolean"){
        
         this.local_unique_execution = val;
     }

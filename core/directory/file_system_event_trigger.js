@@ -3,14 +3,14 @@ var fs = require("fs")
 var path = require("path")
 
 
-var pasteur  = require("pasteur")._;
+var compt  = require("compt")._;
 
 
 exports.begin_event_dest_write =function(config){
     
 
 
-          if( pasteur.has(config,"truncate_content") ){
+          if( compt.has(config,"truncate_content") ){
           if(config['truncate_content']){
               var local_filesname = config['filename'];
               fs.writeFile(local_filesname, "", function(err)  {

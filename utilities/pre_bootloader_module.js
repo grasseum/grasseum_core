@@ -1,4 +1,4 @@
-var _ps  = require("pasteur")._
+var _ps  = require("compt")._
 
 function PreBootloaderModule(){
     

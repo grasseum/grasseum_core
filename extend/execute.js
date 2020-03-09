@@ -1,6 +1,6 @@
 var stream_index = require("../core/stream/index");
 var utilities_support = require("../utilities/support");
-var pasteur = require("pasteur");
+var compt = require("compt");
 function clss_execute(config){
     
     this.config = config;
@@ -67,17 +67,17 @@ clss_execute.prototype.loadModule = function(name,func){
             }
         },
         setDirectory:function(jsn){
-            if (pasteur._.getTypeof(jsn)  == "json"){
+            if (compt._.getTypeof(jsn)  == "json"){
                 var local_config = {};
-                if(pasteur._.has(jsn,"config")){
+                if(compt._.has(jsn,"config")){
                     local_config  = jsn["config"];
                 }
 
-                if(pasteur._.has(jsn,"srcDir")){
+                if(compt._.has(jsn,"srcDir")){
                     main.require_action_stream[name]['srcDir'].push({"dir":jsn['srcDir'],"config":local_config})
                 }
 
-                if(pasteur._.has(jsn,"destDir")){
+                if(compt._.has(jsn,"destDir")){
                     main.require_action_stream[name]['destDir'] = {"dir":jsn["destDir"],"config":local_config}
                 }
 
@@ -96,8 +96,8 @@ clss_execute.prototype.executeModule = function(name){
 
     var main = this;
     
-   var list_load_name = pasteur._.to_array( name ); 
-   var is_module_exist = pasteur._.isExact( pasteur._.getKey(main.require_action_stream) ,list_load_name );
+   var list_load_name = compt._.to_array( name ); 
+   var is_module_exist = compt._.isExact( compt._.getKey(main.require_action_stream) ,list_load_name );
     
     
     var default_limit = 500;
@@ -143,7 +143,7 @@ clss_execute.prototype.executeModule = function(name){
                 
             }
 
-            if(pasteur._.count(list_load_name) == 0){
+            if(compt._.count(list_load_name) == 0){
                 clearInterval(main_interval_logic);
             }
 

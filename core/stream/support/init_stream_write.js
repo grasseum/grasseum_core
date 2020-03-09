@@ -3,7 +3,7 @@ var fs = require("fs")
 var path = require("path")
 var cls_exports = null;
 
-var pasteur  = require("pasteur")._;
+var compt  = require("compt")._;
 
 
 module.exports=function( file_dest,file_src ){
@@ -11,10 +11,10 @@ module.exports=function( file_dest,file_src ){
 function file_control( local_filesname , config ){
  
      var local_attr = {};
-     if( pasteur.has(config,"filename") ){
+     if( compt.has(config,"filename") ){
         local_filesname = config["filename"];
      }
-     if( pasteur.has(config,"flags") ){
+     if( compt.has(config,"flags") ){
         local_attr['flags'] = config["flags"];
       }
    //?   if( pasteur.has(config,"truncate_content") ){

@@ -1,4 +1,4 @@
-var pasteur = require("pasteur")._;
+var compt = require("compt")._;
 
 function stream_exec(){
     this.list_dir_config = [];
@@ -32,11 +32,11 @@ stream_exec.prototype.render_steam = function(after_load_queue){
            var create_stream=main.cls_initialize.streamWrite(var_list['file_dest'],var_list['file_src']);
           
           var local_stream_pipe = undefined;
-          if(pasteur.has(main.cls_value_pipe,var_list['file_src']['ext'])){
+          if(compt.has(main.cls_value_pipe,var_list['file_src']['ext'])){
             local_stream_pipe = main.cls_value_pipe[var_list['file_src']['ext']];
 
           }else{
-            if(pasteur.has(main.cls_value_pipe,"__any__")){
+            if(compt.has(main.cls_value_pipe,"__any__")){
                 local_stream_pipe = main.cls_value_pipe["__any__"];
               }
           }
@@ -53,11 +53,11 @@ stream_exec.prototype.fs_trigger_write_action = function(){
     for(var i in main.list_dir_config){
         var local_dir_config = main.list_dir_config[i];
         var local_stream_pipe = undefined;
-          if(pasteur.has(main.cls_value_pipe,local_dir_config['file_src']['ext'])){
+          if(compt.has(main.cls_value_pipe,local_dir_config['file_src']['ext'])){
             local_stream_pipe = main.cls_value_pipe[local_dir_config['file_src']['ext']];
 
           }else{
-            if(pasteur.has(main.cls_value_pipe,"__any__")){
+            if(compt.has(main.cls_value_pipe,"__any__")){
                 local_stream_pipe = main.cls_value_pipe["__any__"];
               }
           }

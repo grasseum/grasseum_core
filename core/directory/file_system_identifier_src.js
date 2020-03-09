@@ -3,7 +3,7 @@ var fs = require('fs');
 var path = require('path');
 
 
-var pasteur = require("pasteur");
+var compt = require("compt");
 
 function clsFileSystem(files,orig_path,func){
     this.files = files;

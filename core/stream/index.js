@@ -1,5 +1,5 @@
 var directory_index = require("../directory/index");
-var ps  = require("pasteur")._
+var compt  = require("compt")._
 var initiliaze = require("./initiliaze");
 
 var stream_exec = require("./../../utilities/stream_exec");
@@ -37,7 +37,7 @@ core_stream.prototype.streamInit = function(after_load_queue){
     cls_stream_exec.set_require_pipe(main.require_pipe);
     cls_stream_exec.set_value_pipe(main.value_pipe);
 
-    var key_value_pipe = ps.getKey(main.value_pipe) 
+    var key_value_pipe = compt.getKey(main.value_pipe) 
    
     main.reviewSrcDir(function(file_src){
         
@@ -49,7 +49,7 @@ core_stream.prototype.streamInit = function(after_load_queue){
                 cls_stream_exec.set_src_value(file_dest,file_src);
            }else{
            
-                if(ps.indexOf(key_value_pipe,file_src['ext']) >-1 || ps.indexOf(key_value_pipe,"__any__") >-1){
+                if(compt.indexOf(key_value_pipe,file_src['ext']) >-1 || compt.indexOf(key_value_pipe,"__any__") >-1){
                     after_load_queue['count_file_read']++;
                     cls_stream_exec.set_src_value(file_dest,file_src);   
                           }
