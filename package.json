@@ -1,5 +1,5 @@
 {
-  "name": "@grasseum/grasseum_core",
+  "name": "grasseum_core",
   "version": "1.0.0",
   "description": "Design assistance in template",
   "main": "main.js",
