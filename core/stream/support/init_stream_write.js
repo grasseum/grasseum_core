@@ -17,17 +17,7 @@ function file_control( local_filesname , config ){
      if( compt.has(config,"flags") ){
         local_attr['flags'] = config["flags"];
       }
-   //?   if( pasteur.has(config,"truncate_content") ){
-   //?       if(config['truncate_content']){
-   //?           fs.writeFile(local_filesname, "", function(err)  {
-                // throws an error, you could also catch it here
-               // if (err) throw err;
-
-                // success case, the file was saved
-  //?              console.log('File has been truncated!');
-    //?        });
-    //?      }
-  //?    }
+  
       return {
           "local_filesname":local_filesname,
           "local_attr":local_attr
@@ -62,8 +52,6 @@ function file_control( local_filesname , config ){
             },
             directory:function( config ){
                 var  dir_path= path.join(file_dest['files'],path.basename(file_src['files']));
-            //   var dir_path = path.join("/home/pein/Desktop/workspace/experiment/nodejs/grasseum/grasseum-cli/test/concept1/test.min.js");
-                //console.log("directory",dir_path)
                 try{
                     var local_filesname = dir_path;
                    

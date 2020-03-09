@@ -14,9 +14,9 @@ function clsFileSystem(files,orig_path,func){
 }
 clsFileSystem.prototype.action_callback = function(files,func,is_callback) {
         var main =this;
-        //console.log(files,"files")
+       
         fs.lstat(files, function(err, stats){
-               // console.log(err,"err")
+              
               
                 if (err == null){
                     //return false
@@ -37,7 +37,6 @@ clsFileSystem.prototype.action_callback = function(files,func,is_callback) {
                         var dir_sync =  fs.readdirSync(files)
 
                         for(var i in dir_sync){
-                //           console.log(dir_sync[i],"dir_sync[i]",files,":",path.join(files,dir_sync[i]))
                           main.action_callback(path.join(files,dir_sync[i]),func,false)
                         }
                   }else{

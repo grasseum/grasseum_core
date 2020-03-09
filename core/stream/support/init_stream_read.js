@@ -8,8 +8,7 @@ module.exports=function(value){
         module:function(config){
             try{
                 var req_name = require(value['files'])
-                //var stream_read_local = stream_read()
-            // req_name.grass_stream_read.call(stream_read_local)
+           
             
                 var stream_write_local = stream_write()
                 return req_name.grass_stream_read.call(stream_write_local,value['config'])
