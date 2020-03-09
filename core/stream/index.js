@@ -52,12 +52,7 @@ core_stream.prototype.streamInit = function(after_load_queue){
                 if(ps.indexOf(key_value_pipe,file_src['ext']) >-1 || ps.indexOf(key_value_pipe,"__any__") >-1){
                     after_load_queue['count_file_read']++;
                     cls_stream_exec.set_src_value(file_dest,file_src);   
-                          }//else{
-                           // if(ps.indexOf(key_value_pipe,"__any__") >-1 ){
-                          //      after_load_queue['count_file_read']++;
-                          //      cls_stream_exec.set_src_value(file_dest,file_src);   
-                         //             }
-                         // }
+                          }
                                    
            }
             

@@ -26,7 +26,7 @@ clss_execute.prototype.after_loadModule = function(name,func){
     main.require_action_stream[name]['after_load'] = func;
 }
 clss_execute.prototype.loadModule = function(name,func){
-    //console.log(arguments)
+   
     var main = this;
    
     utilities_support.set_require_action_stream(name,main.require_action_stream);
@@ -60,7 +60,7 @@ clss_execute.prototype.loadModule = function(name,func){
                  main.require_action_stream[name]['pipe'].push({
                      "name":require_name,
                      "require":req_name,
-                     "arguments":arg_array.length>2?arg_array.splice(1):[],
+                     "arguments":arg_array.length>1?arg_array.splice(1):[],
                  })
             }else{
                 console.log("Module was specified in PIPE function")
@@ -100,10 +100,15 @@ clss_execute.prototype.executeModule = function(name){
    var is_module_exist = pasteur._.isExact( pasteur._.getKey(main.require_action_stream) ,list_load_name );
     
     
-    var default_limit = 100;
+    var default_limit = 500;
     if(  is_module_exist ){
        
         var raw_set_limit = 0;
+        var reference_value = {
+            "cnt":0,
+             "count_file_read":0,
+             "is_pipe_load":true,
+        };
         var main_interval_logic = setInterval(function(){
 
             var module_name = list_load_name[0];
@@ -115,20 +120,28 @@ clss_execute.prototype.executeModule = function(name){
                 get_pre_class.is_run = true;
             }
             raw_set_limit++;
-            if(get_pre_class.is_run){ 
-             
-                stream_index({"require":main.require_action_stream[module_name],"config":main.config} , {
-                        "cnt":0,
-                        "count_file_read":0,
-                        "class_after_load" : main.require_action_stream[module_name]['after_load']    
-                    }) 
-                
+          
+            if(get_pre_class.is_run  && reference_value['is_pipe_load']  ){ 
+               
+                console.log("Executing module `"+module_name+"`")
+                reference_value['is_pipe_load'] = false;
+                reference_value["class_after_load"] = main.require_action_stream[module_name]['after_load'] 
+                stream_index({"require":main.require_action_stream[module_name],"config":main.config} , reference_value) 
                 
 
-                list_load_name.shift();
+                
+                
+                
             }
             
-
+            if(reference_value['cnt']  >= parseInt(reference_value['count_file_read'] ) ){
+                
+                reference_value["cnt"] = 0;
+                reference_value["count_file_read"] =0;
+                list_load_name.shift();
+                reference_value['is_pipe_load'] = true;
+                
+            }
 
             if(pasteur._.count(list_load_name) == 0){
                 clearInterval(main_interval_logic);

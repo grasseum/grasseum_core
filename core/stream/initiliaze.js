@@ -84,7 +84,11 @@ exports.streamTransfom=function(stream_read,stream_write,stream_pipe,require_pip
    var jsn_pipe_stream = {};
    var ary_pipe_stream_module = []; 
    var read_count = 0;
+   var prep_data_after_load_queue = {};
    
+   prep_data_after_load_queue['count']=after_load_queue['cnt']; 
+   prep_data_after_load_queue['count_file_read']=after_load_queue['count_file_read']
+ 
    for(var i in stream_pipe){
        try{
         if(pastuer.has(require_pipe,stream_pipe[i]['name']) == false){
@@ -110,7 +114,7 @@ exports.streamTransfom=function(stream_read,stream_write,stream_pipe,require_pip
                       "arguments":stream_pipe[i]['arguments'],
                       "module":req_grss_minify
                   };
-                  ary_pipe_stream_module.push("pipe(jsn_pipe_stream[ '"+stream_pipe[i]['name']+"']['module'].apply(local_stream_transform, jsn_pipe_stream['"+stream_pipe[i]['name']+"']['arguments'] ))");
+                  ary_pipe_stream_module.push("pipe(jsn_pipe_stream[ '"+stream_pipe[i]['name']+"']['module'].apply(local_stream_transform, [prep_data_after_load_queue].concat(jsn_pipe_stream['"+stream_pipe[i]['name']+"']['arguments'] )))");
                 
          }            
              
@@ -125,7 +129,7 @@ exports.streamTransfom=function(stream_read,stream_write,stream_pipe,require_pip
          console.log("Pipe_error",e)
      }
    }
-   var init_new = new Function('local_read_stream','local_write_stream','jsn_pipe_stream','local_stream_transform',"return local_read_stream."+ary_pipe_stream_module.join(".")+(ary_pipe_stream_module.length >0 ?".":"")+"pipe(local_write_stream);");
+   var init_new = new Function('local_read_stream','local_write_stream','jsn_pipe_stream','local_stream_transform','prep_data_after_load_queue',"return local_read_stream."+ary_pipe_stream_module.join(".")+(ary_pipe_stream_module.length >0 ?".":"")+"pipe(local_write_stream);");
    var list_write_file_stream = [];
 
    function load_local_func_stream(){
@@ -140,7 +144,7 @@ exports.streamTransfom=function(stream_read,stream_write,stream_pipe,require_pip
             init_new(local_var['local_read_stream'],
                     local_var['local_write_stream'],
                     local_var['jsn_pipe_stream'],
-                    local_var['local_stream_transform']).on('finish', function()  {
+                    local_var['local_stream_transform'],prep_data_after_load_queue).on('finish', function()  {
                        
                       
                        after_load_queue['cnt']++;

@@ -2,6 +2,7 @@ var _ps  = require("pasteur")._
 
 function StreamInit(){
     this.local_extension = ["module"]
+    this.local_unique_execution = false;
 
 }
 
@@ -15,11 +16,20 @@ StreamInit.prototype.setDefaultExtension=function(val){
     }
 }
 
+StreamInit.prototype.setUniqueExecution=function(val){
+
+    if(_ps.getTypeof(val) =="boolean"){
+       
+        this.local_unique_execution = val;
+    }
+}
+
 
 StreamInit.prototype.getExecutedVal=function(){
 
     return {
-        "ext":this.local_extension
+        "ext":this.local_extension,
+        "is_unique_execution":this.local_unique_execution
 
     }
 }

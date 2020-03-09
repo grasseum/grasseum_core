@@ -1,5 +1,5 @@
 {
-  "name": "grasseum",
+  "name": "grasseum_core",
   "version": "1.0.0",
   "description": "Design assistance in template",
   "main": "main.js",
@@ -7,10 +7,10 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
-    "Design"
+    "Streaming build library"
   ],
   "dependencies": {
-    "pompay": "*"
+    
    
   },
   "author": "Pein Freccs",
