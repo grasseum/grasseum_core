@@ -1,5 +1,5 @@
 {
-  "name": "grasseum_core",
+  "name": "@grasseum/grasseum_core",
   "version": "1.0.0",
   "description": "Design assistance in template",
   "main": "main.js",
@@ -9,10 +9,15 @@
   "keywords": [
     "Streaming build library"
   ],
-  "dependencies": {
-    
-   
-  },
+  "dependencies": {},
   "author": "Pein Freccs",
-  "license": "MIT"
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/grasseum/grasseum_core.git"
+  },
+  "bugs": {
+    "url": "https://github.com/grasseum/grasseum_core/issues"
+  },
+  "homepage": "https://github.com/grasseum/grasseum_core#readme"
 }
