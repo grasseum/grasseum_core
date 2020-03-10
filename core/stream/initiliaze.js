@@ -5,7 +5,7 @@ var stream_transform = require("./support/stream_transform")
 var stream_read = require("./support/init_stream_read")
 var init_stream_write = require("./support/init_stream_write");
 var utilities_directory = require("./../../utilities/directory");
-var file_system_event_trigger = require("./../directory/file_system_event_trigger");
+var file_system_event_trigger = require("grasseum_directory/file_system_event_trigger");
 var pre_bootloader_module = require("./../../utilities/pre_bootloader_module");
 
 

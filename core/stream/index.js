@@ -1,4 +1,4 @@
-var directory_index = require("../directory/index");
+var directory_index = require("grasseum_directory/index");
 var compt  = require("compt")._
 var initiliaze = require("./initiliaze");
 
