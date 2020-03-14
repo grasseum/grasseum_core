@@ -9,7 +9,7 @@ exports.prep_before_load = function(is_initiate){
 function loader_before_load(is_initiate){
     this.is_run = is_initiate;
     this.execute_limit_in_seconds = 5000;
-    this.raw_content = "";
+    this.raw_content = null;
 
     this.set_content = function(content){
         this.raw_content = content;
