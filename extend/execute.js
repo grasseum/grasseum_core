@@ -182,17 +182,18 @@ clss_execute.prototype.executeModule = function(name){
                     
                 }
                 
-                
+                if(reference_value['cnt']  >= parseInt(reference_value['count_file_read'] ) ){
+                    raw_set_limit = 0;
+                    reference_value["cnt"] = 0;
+                    reference_value["count_file_read"] =0;
+                    list_load_name.shift();
+                    reference_value['is_pipe_load'] = true;
+                    
+                }
                 
             }
-            if(reference_value['cnt']  >= parseInt(reference_value['count_file_read'] ) ){
-                raw_set_limit = 0;
-                reference_value["cnt"] = 0;
-                reference_value["count_file_read"] =0;
-                list_load_name.shift();
-                reference_value['is_pipe_load'] = true;
-                
-            }
+
+            
             if(compt._.count(list_load_name) == 0){
                 clearInterval(main_interval_logic);
             }
