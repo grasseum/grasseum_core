@@ -1,6 +1,6 @@
 {
   "name": "grasseum_core",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Design assistance in template",
   "main": "main.js",
   "scripts": {

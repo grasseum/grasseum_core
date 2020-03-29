@@ -31,6 +31,7 @@ exports.set_require_action_stream = function(name,data){
             "srcDir":[],
             "destDir":".",
             "pipe":[],
+            "destAndSrcDir":[],
             "before_load":(function(func){
 
             })(pre_main_class),
@@ -38,7 +39,7 @@ exports.set_require_action_stream = function(name,data){
             "after_load":function(){
                 
             }
-
+            
         } 
     }
 }

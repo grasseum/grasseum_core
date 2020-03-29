@@ -1,17 +1,18 @@
-var compt  = require("compt")._
+let compt  = require("compt")._
 
-var stream_init = require("./support/stream_init")
-var stream_transform = require("./support/stream_transform")
-var stream_read = require("./support/init_stream_read")
-var init_stream_write = require("./support/init_stream_write");
-var utilities_directory = require("./../../utilities/directory");
-var file_system_event_trigger = require("grasseum_directory/file_system_event_trigger");
-var pre_bootloader_module = require("./../../utilities/pre_bootloader_module");
+let stream_init = require("./support/stream_init")
+let stream_transform = require("./support/stream_transform")
+let stream_read = require("./support/init_stream_read")
+let init_stream_write = require("./support/init_stream_write");
+let utilities_directory = require("./../../utilities/directory");
+let file_system_event_trigger = require("grasseum_directory/file_system_event_trigger");
+
+const after_bootloader_module = require("../../implements/after_bootloader_module");
 
 
 
 exports.streamReader=function(file_src){
- //   console.log(stream_read())
+
     if(compt.has(stream_read(file_src),file_src['type'])){
         
         return stream_read(file_src)[ file_src['type'] ];
@@ -33,7 +34,7 @@ exports.fsBeginWriteAction=function(file_dest,file_src,stream_pipe,require_pipe,
 
    
     
-  
+    
    for(var i in stream_pipe){  
        try{
         if(compt.has(require_pipe,stream_pipe[i]['name']) == false){
@@ -70,19 +71,24 @@ exports.fsBeginWriteAction=function(file_dest,file_src,stream_pipe,require_pipe,
 
 
 
-
 exports.streamTransfom=function(stream_read,stream_write,stream_pipe,require_pipe,stream_init_cls,after_load_queue){
-    var local_stream_transform = stream_transform() 
-    var local_read_stream = stream_read({});
+    let local_stream_transform = stream_transform() 
+    let local_read_stream = stream_read({});
     
     
     
-  var list_class_read_stream = [];
+    let list_class_read_stream = [];
   
-   var jsn_pipe_stream = {};
-   var ary_pipe_stream_module = []; 
-   var read_count = 0;
-   var prep_data_after_load_queue = {};
+    let jsn_pipe_stream = {};
+    let ary_pipe_stream_module = []; 
+    let read_count = 0;
+    let prep_data_after_load_queue = {};
+
+
+    let reference_script_preload = [];
+    let reference_script_afterload = [];
+
+
    
    prep_data_after_load_queue['count']=after_load_queue['cnt']; 
    prep_data_after_load_queue['count_file_read']=after_load_queue['count_file_read']
@@ -106,15 +112,36 @@ exports.streamTransfom=function(stream_read,stream_write,stream_pipe,require_pip
                      console.log( local_valid_write_file_format['error_output'].join("; \n") );
                  }
              }
-             if(compt.has(main_require,"grass_stream_transform") ){
-                  var req_grss_minify = main_require.grass_stream_transform;
+            if(compt.has(main_require,"grass_stream_transform") ){
+                  let req_grss_minify = main_require.grass_stream_transform;
                   jsn_pipe_stream[ stream_pipe[i]['name'] ] = {
                       "arguments":stream_pipe[i]['arguments'],
                       "module":req_grss_minify
                   };
                   ary_pipe_stream_module.push("pipe(jsn_pipe_stream[ '"+stream_pipe[i]['name']+"']['module'].apply(local_stream_transform, [prep_data_after_load_queue].concat(jsn_pipe_stream['"+stream_pipe[i]['name']+"']['arguments'] )))");
                 
-         }            
+            } 
+            
+            if(compt.has(main_require,"grass_script_preload") ){
+                let req_grss_minify = main_require.grass_script_preload;
+                reference_script_preload.push(
+                    {
+                        "arguments":stream_pipe[i]['arguments'],
+                        "module":req_grss_minify
+                    }
+                )
+
+            }
+            if(compt.has(main_require,"grass_script_afterload") ){
+                let req_grss_minify = main_require.grass_script_afterload;
+                reference_script_afterload.push(
+                    {
+                        "arguments":stream_pipe[i]['arguments'],
+                        "module":req_grss_minify
+                    }
+                )
+
+            }
              
             
         }else{
@@ -129,31 +156,71 @@ exports.streamTransfom=function(stream_read,stream_write,stream_pipe,require_pip
    }
    var init_new = new Function('local_read_stream','local_write_stream','jsn_pipe_stream','local_stream_transform','prep_data_after_load_queue',"return local_read_stream."+ary_pipe_stream_module.join(".")+(ary_pipe_stream_module.length >0 ?".":"")+"pipe(local_write_stream);");
    var list_write_file_stream = [];
-
+   let cnt_interval = 0; 
+   let pre_load_interval_limit = 500;
    function load_local_func_stream(){
        if(list_write_file_stream.length <=0){
                 setTimeout(function(){
             stream_init_cls.render_steam(after_load_queue);
         },10);
        }else{
-           var local_var = list_write_file_stream[0];
+       
+     
+               let local_var = list_write_file_stream[0];
   
               
             init_new(local_var['local_read_stream'],
                     local_var['local_write_stream'],
                     local_var['jsn_pipe_stream'],
                     local_var['local_stream_transform'],prep_data_after_load_queue).on('finish', function()  {
-                       
+                        
                       
                        after_load_queue['cnt']++;
+                      
                        if(after_load_queue['cnt'] == after_load_queue['count_file_read']){
-                        after_load_queue['class_after_load']()
+                        console.log("complete . . ")
+                        let cnt_interval = 0; 
+                        let cls_pre_load_interval = setInterval(function(){
+                        if(  compt.count(reference_script_afterload) > 0 ){
+                            
+                            let init_after_bootloader_module = new after_bootloader_module({
+                                    "list_dir_config":stream_init_cls.list_dir_config ,
+                                    "cnt_interval":cnt_interval
+                                    
+                            });
+                            let cls_init_reference_script_afterload = reference_script_afterload[0];
+                            
+                        
+                           
+
+                            cls_init_reference_script_afterload['module'].apply(
+                                
+                                init_after_bootloader_module, [prep_data_after_load_queue].concat(cls_init_reference_script_afterload['arguments'])
+                            );
+                            cnt_interval++;
+                      
+                                
+                                reference_script_afterload.shift();
+                        
+                        }
+                        if(compt.count(reference_script_afterload) ==0){
+                            after_load_queue['is_after_load_completed'] = true;
+                            clearInterval(cls_pre_load_interval)
+                            after_load_queue['class_after_load']()
+                        }
+                        
+                        },pre_load_interval_limit)
+
+                   
                        }
+                       
                         read_count++;
                     });
-              
+                   
             list_write_file_stream.shift();
+            
             load_local_func_stream();
+         
        }
    }
    if(list_class_read_stream.length >0){
@@ -197,7 +264,7 @@ exports.streamTransformPipeInit=function(config,value_pipe){
                  set_config['require']['grass_stream_config'].call(transform_local)
                  var arry_value_pipe_arguments = {};
                  for(var i in transform_local.getExecutedVal()['ext']){
-                 //   if( transform_local.getExecutedVal()['ext'][i] !="__any__" ){
+           
                         if(compt.has(value_pipe,transform_local.getExecutedVal()['ext'][i]) ==false ){
                             
                             value_pipe[transform_local.getExecutedVal()['ext'][i]] = []
@@ -205,7 +272,7 @@ exports.streamTransformPipeInit=function(config,value_pipe){
                         }
 
                         value_pipe[transform_local.getExecutedVal()['ext'][i]].push({"name":set_config['name'],"arguments":set_config['arguments']})
-                //    }
+        
 
                      if(compt.has(arry_value_pipe_arguments,transform_local.getExecutedVal()['ext'][i]) == false){
                         arry_value_pipe_arguments[transform_local.getExecutedVal()['ext'][i]]={}

@@ -93,6 +93,12 @@ clss_execute.prototype.loadModule = function(name,func){
                     main.require_action_stream[name]['destDir'] = {"dir":jsn["destDir"],"config":local_config}
                 }
 
+                if(compt._.has(jsn,"destAndSrcDir")){
+                    
+                    main.require_action_stream[name]['destAndSrcDir'].push({"dir":jsn['destAndSrcDir'],"config":local_config})
+                   
+                }
+
             }else{
                 console.log("Invalid setting configure");
             }
@@ -105,11 +111,7 @@ clss_execute.prototype.loadModule = function(name,func){
    
    var raw_set_limit = 0;
     var main_interval_logic = setInterval(function(){
-
-        
-        
-     
-    
+         
        
         if( (raw_set_limit * default_limit)  > local_pre_load_cls['execute_limit_in_seconds']){
             local_pre_load_cls.is_run = true;
@@ -152,6 +154,24 @@ clss_execute.prototype.executeModule = function(name){
             "cnt":0,
              "count_file_read":0,
              "is_pipe_load":true,
+
+             "is_completed":false,
+             "is_after_load_completed":false,
+             "count_how_many_zero_return":0
+        };
+        var internal_reference_value = {
+            "is_preload_complete":false,
+            "is_prep_preload_complete":false,
+            "pre_file_count":0,
+            "count_file_complete":0,
+           
+       
+            "preload_module":null,
+            "cnt_interval":0,
+            
+  
+            
+           
         };
         var raw_set_limit = 0;
         var main_interval_logic = setInterval(function(){
@@ -168,27 +188,63 @@ clss_execute.prototype.executeModule = function(name){
                 }
 
                 
-            
-                if(get_pre_class.is_run  && reference_value['is_pipe_load']  ){ 
+             
                 
-                    console.log("Executing module `"+module_name+"`")
+                if( get_pre_class.is_run  && reference_value['is_pipe_load']  ){ 
+                       
+                    
                     reference_value['is_pipe_load'] = false;
                     reference_value["class_after_load"] = main.require_action_stream[module_name]['after_load'] 
-                    stream_index({"require":main.require_action_stream[module_name],"config":main.config} , reference_value) 
+                    console.log("Executing module `"+module_name+"`")
+                    stream_index({"module_name":module_name,"require":main.require_action_stream[module_name],"config":main.config} ,internal_reference_value, reference_value) 
+            
                     
-
-                    
-                    
+                   
                     
                 }
-                
-                if(reference_value['cnt']  >= parseInt(reference_value['count_file_read'] ) ){
-                    raw_set_limit = 0;
-                    reference_value["cnt"] = 0;
-                    reference_value["count_file_read"] =0;
-                    list_load_name.shift();
-                    reference_value['is_pipe_load'] = true;
+           
+               if(internal_reference_value['is_preload_complete']){
+
+                    if(reference_value['cnt']==0 && reference_value['count_file_read'] ==0  ){
+                        reference_value['count_how_many_zero_return']++;
+                    }
                     
+                    if(reference_value['cnt'] >= reference_value['count_file_read'] && reference_value['cnt'] >0 && reference_value['count_file_read'] >0 ){
+                        reference_value['is_completed']  =true;
+                    }else{
+                        if(reference_value['count_how_many_zero_return']>20){
+                            reference_value['is_completed']  =true;
+                        }
+                    }
+
+               }
+               
+                if(reference_value['is_completed'] && reference_value['is_after_load_completed']  ){    
+                        
+                    raw_set_limit = 0;
+           
+                    list_load_name.shift();
+               
+                 reference_value = {
+                    "cnt":0,
+                     "count_file_read":0,
+                     "is_pipe_load":true,
+        
+                     "is_completed":false,
+                     "is_after_load_completed":false,
+                     "count_how_many_zero_return":0
+                };
+                 internal_reference_value = {
+                    "is_preload_complete":false,
+                    "is_prep_preload_complete":false,
+                    "pre_file_count":0,
+                    "count_file_complete":0,
+                  
+               
+                    "cnt_interval":0,
+         
+
+                };
                 }
                 
             }
