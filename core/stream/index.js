@@ -138,7 +138,7 @@ core_stream.prototype.preload_filesystem = function(internal_reference_value,aft
                 internal_reference_value['is_prep_preload_complete'] = true
             }
         }else{
-                console.log("run")
+             
                 internal_reference_value['is_preload_complete'] = true;
                 main.cls_stream_exec.timer_trigger_acton( internal_reference_value, after_load_queue )
             

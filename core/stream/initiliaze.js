@@ -1,9 +1,9 @@
 let compt  = require("compt")._
 
-let stream_init = require("./support/stream_init")
-let stream_transform = require("./support/stream_transform")
-let stream_read = require("./support/init_stream_read")
-let init_stream_write = require("./support/init_stream_write");
+let stream_init = require("grasseum_stream/stream_init")
+let stream_transform = require("grasseum_stream/stream_transform")
+let stream_read = require("grasseum_stream/init_stream_read")
+let init_stream_write = require("grasseum_stream/init_stream_write");
 let utilities_directory = require("./../../utilities/directory");
 let file_system_event_trigger = require("grasseum_directory/file_system_event_trigger");
 
@@ -92,7 +92,7 @@ exports.streamTransfom=function(stream_read,stream_write,stream_pipe,require_pip
    
    prep_data_after_load_queue['count']=after_load_queue['cnt']; 
    prep_data_after_load_queue['count_file_read']=after_load_queue['count_file_read']
- 
+    
    for(var i in stream_pipe){
        try{
         if(compt.has(require_pipe,stream_pipe[i]['name']) == false){
@@ -154,6 +154,7 @@ exports.streamTransfom=function(stream_read,stream_write,stream_pipe,require_pip
          console.log("Pipe_error",e)
      }
    }
+  
    var init_new = new Function('local_read_stream','local_write_stream','jsn_pipe_stream','local_stream_transform','prep_data_after_load_queue',"return local_read_stream."+ary_pipe_stream_module.join(".")+(ary_pipe_stream_module.length >0 ?".":"")+"pipe(local_write_stream);");
    var list_write_file_stream = [];
    let cnt_interval = 0; 

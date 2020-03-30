@@ -195,12 +195,25 @@ clss_execute.prototype.executeModule = function(name){
                     
                     reference_value['is_pipe_load'] = false;
                     reference_value["class_after_load"] = main.require_action_stream[module_name]['after_load'] 
-                    console.log("Executing module `"+module_name+"`")
-                    stream_index({"module_name":module_name,"require":main.require_action_stream[module_name],"config":main.config} ,internal_reference_value, reference_value) 
-            
                     
                    
+                   
                     
+                   //console.log(main.require_action_stream[module_name]['pipe'].length,"pipe");
+                    if(main.require_action_stream[module_name]['pipe'].length >0 ){
+                        //list_load_name.shift();
+                        console.log("Executing module `"+module_name+"`")
+                        stream_index({"module_name":module_name,"require":main.require_action_stream[module_name],"config":main.config} ,internal_reference_value, reference_value) 
+            
+                        reference_value['is_completed'] = true;
+                         reference_value['is_after_load_completed'] = true;
+                    }else{
+                        console.log(compt._.repeat(" . ",10)+"\nTerminate module `"+module_name+"`")
+                        console.log("No pipe module has declared \n "+compt._.repeat(" . ",10))
+                        reference_value["class_after_load"]()
+                        reference_value['is_completed'] = true;
+                        reference_value['is_after_load_completed'] = true;
+                    }
                 }
            
                if(internal_reference_value['is_preload_complete']){
